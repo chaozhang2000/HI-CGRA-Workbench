@@ -1,7 +1,7 @@
 COLOR_RED := $(shell echo "\033[1;31m")
 COLOR_END := $(shell echo "\033[0m")
 
-KERNEL ?= fir
+KERNEL ?= mm2
 SUFFIX ?= 0
 MAKE= make
 KERNELDIR=$(CGRA_WORKBENCH)/kernels/$(KERNEL)
