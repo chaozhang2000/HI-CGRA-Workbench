@@ -1,3 +1,4 @@
 {
-  "kernel"                : "kernel"
+  "kernel"                : "kernel",
+	"loopargnum"						:	3
 }
