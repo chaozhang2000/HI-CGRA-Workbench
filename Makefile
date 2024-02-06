@@ -9,7 +9,8 @@ BUILDDIR=$(KERNELDIR)/build
 OUTDIR=$(CGRA_WORKBENCH)/outputs/$(KERNEL)_$(SUFFIX)
 BC = $(KERNELDIR)/build/kernel.bc
 SO = $(MAPPER_HOME)/build/mapperPass-so
-JSON = $(KERNELDIR)/param.json
+PARAMJSON = $(KERNELDIR)/param.json
+MAPCONSTRAINTJSON = $(KERNELDIR)/mapconstraint.json
 RUNSH = $(CGRA_WORKBENCH)/scripts/run.sh
 GDBSH= $(CGRA_WORKBENCH)/scripts/gdb.sh
 DOTSH= $(CGRA_WORKBENCH)/scripts/dot.sh
@@ -20,10 +21,10 @@ $(warning $(COLOR_RED)Build it in HIT-CGRA-Mapper first!$(COLOR_END))
 endif
 
 run : $(BC)
-	@bash $(RUNSH) $(OUTDIR) $(KERNELDIR) $(JSON) $(SO) $(BC)
+	@bash $(RUNSH) $(OUTDIR) $(KERNELDIR) $(PARAMJSON) $(MAPCONSTRAINTJSON) $(SO) $(BC)
 	@bash $(DOTSH) $(OUTDIR) $(KERNEL)_$(SUFFIX)
 gdb : $(BC)
-	@bash $(GDBSH) $(OUTDIR) $(KERNELDIR) $(JSON) $(SO) $(BC)
+	@bash $(GDBSH) $(OUTDIR) $(KERNELDIR) $(PARAMJSON) $(MAPCONSTRAINTJSON) $(SO) $(BC)
 	@bash $(DOTSH) $(OUTDIR) $(KERNEL)_$(SUFFIX)
 $(BC):
 	@$(MAKE) -s  -C $(KERNELDIR)

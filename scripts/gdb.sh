@@ -1,11 +1,13 @@
 OUTDIR=$1
 KERNELDIR=$2
-JSON=$3
-SO=$4
-BC=$5
+PARAMJSON=$3
+CONSTRAINTJSON=$4
+SO=$5
+BC=$6
 mkdir -p $OUTDIR
 cp -r $KERNELDIR $OUTDIR
-cp $JSON $OUTDIR
+cp $PARAMJSON $OUTDIR
+cp $CONSTRAINTJSON $OUTDIR
 cd $OUTDIR
 cat > script.gdb << EOF
 set breakpoint pending on
