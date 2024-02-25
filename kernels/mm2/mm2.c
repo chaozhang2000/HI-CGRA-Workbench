@@ -75,7 +75,7 @@ int main()
   return 0;
 }
 
-void kernel(int *A1, int *B1, int *resultAB1,long i,long j,long k)
+void kernel(int *A1, int *B1, int *resultAB1,long k,long j,long i)
 {
 				resultAB1[i*SIZE+j] += A1[i*SIZE+k]*B1[k*SIZE+j]+A1[i*SIZE+k+1]*B1[(k+1)*SIZE+j];
 }
