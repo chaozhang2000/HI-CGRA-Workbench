@@ -1,8 +1,8 @@
-#define SIZE 3 
+#define SIZE 5 
 #include <stdio.h>
 
-int A1s[SIZE][SIZE] = {{1,2,3},{6,7,8},{11,12,13}};
-int B1s[SIZE][SIZE] = {{1,2,3},{6,7,8},{11,12,13}};
+int A1s[SIZE][SIZE] = {{1,2,3,4,5},{6,7,8,9,10},{11,12,13,14,15},{16,17,18,19,20},{21,22,23,24,25}};
+int B1s[SIZE][SIZE] = {{1,2,3,4,5},{6,7,8,9,10},{11,12,13,14,15},{16,17,18,19,20},{21,22,23,24,25}};
 /*
 int A1s[SIZE][SIZE] = {{400, 401, 402, 403, 404, 405, 406, 407, 408, 409, 410, 411, 412, 413, 414, 415, 416, 417, 418, 419}, 
 	{420, 421, 422, 423, 424, 425, 426, 427, 428, 429, 430, 431, 432, 433, 434, 435, 436, 437, 438, 439},
@@ -87,5 +87,10 @@ int main()
 
 void kernel(int *A1, int *B1, int *resultAB1,long j,long i)
 {
-				resultAB1[i*SIZE+j] = A1[i*SIZE+0]*B1[j] + A1[i*SIZE+1]*B1[SIZE+j]+A1[i*SIZE+2]*B1[2*SIZE+j];
+#pragma clang loop unroll_count(20)
+				for(int k = 0; k<SIZE;k=k+1){
+																//	3						//7
+				resultAB1[i*SIZE+j] += A1[i*SIZE+k]*B1[k*SIZE+j];
+				//A1[2]*B1[40] + A1[3]*B[60] = 401 * 400 + 402 * 
+				}
 }
