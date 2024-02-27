@@ -77,6 +77,8 @@ int main()
 
 void kernel(int *A1, int *B1, int *resultAB1,long k,long j,long i)
 {
+																//	3						//7
 				resultAB1[i*SIZE+j] += A1[i*SIZE+k]*B1[k*SIZE+j]+A1[i*SIZE+k+1]*B1[(k+1)*SIZE+j];
+				//A1[2]*B1[40] + A1[3]*B[60] = 401 * 400 + 402 * 
 }
 
