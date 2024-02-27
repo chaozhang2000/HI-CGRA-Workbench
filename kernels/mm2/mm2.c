@@ -1,6 +1,9 @@
-#define SIZE 20
+#define SIZE 5 
 #include <stdio.h>
 
+int A1s[SIZE][SIZE] = {{1,2,3,4,5},{6,7,8,9,10},{11,12,13,14,15},{16,17,18,19,20},{21,22,23,24,25}};
+int B1s[SIZE][SIZE] = {{1,2,3,4,5},{6,7,8,9,10},{11,12,13,14,15},{16,17,18,19,20},{21,22,23,24,25}};
+/*
 int A1s[SIZE][SIZE] = {{400, 401, 402, 403, 404, 405, 406, 407, 408, 409, 410, 411, 412, 413, 414, 415, 416, 417, 418, 419}, 
 	{420, 421, 422, 423, 424, 425, 426, 427, 428, 429, 430, 431, 432, 433, 434, 435, 436, 437, 438, 439},
 	{440, 441, 442, 443, 444, 445, 446, 447, 448, 449, 450, 451, 452, 453, 454, 455, 456, 457, 458, 459},
@@ -41,8 +44,9 @@ int B1s[SIZE][SIZE] = {{400, 401, 402, 403, 404, 405, 406, 407, 408, 409, 410, 4
 	{740, 741, 742, 743, 744, 745, 746, 747, 748, 749, 750, 751, 752, 753, 754, 755, 756, 757, 758, 759},
 	{760, 761, 762, 763, 764, 765, 766, 767, 768, 769, 770, 771, 772, 773, 774, 775, 776, 777, 778, 779},
 	{780, 781, 782, 783, 784, 785, 786, 787, 788, 789, 790, 791, 792, 793, 794, 795, 796, 797, 798, 799}};
+	*/
 
-void kernel(int *A1,int *B1,int *resultAB1,long i,long j,long k);
+void kernel(int *A1,int *B1,int *resultAB1,long i,long j);
 int resultABs[SIZE][SIZE];
 int resulttrue[SIZE][SIZE];
 int main()
@@ -56,12 +60,18 @@ int main()
 	int *resultAB1 = (int *)resultABs;
   for (i=0;i<SIZE;i++){
         for(j=0;j<SIZE;j++){
-                for(k=0;k<SIZE;k=k+2){
-  								kernel(A1, B1, resultAB1,i,j,k);
-                  resulttrue[i][j]  += A1s[i][k] * B1s[k][j]+A1s[i][k+1]*B1s[k+1][j];
+                for(k=0;k<SIZE;k=k+1){
+  								kernel(A1, B1, resultAB1,i,j);
                 }
         }
   }
+  for (i=0;i<SIZE;i++){
+        for(j=0;j<SIZE;j++){
+                for(k=0;k<SIZE;k=k+1){
+                  resulttrue[i][j]  += A1s[i][k] * B1s[k][j];
+								}
+				}
+	}
 
 	int error = 0;
 	for (int i=0;i<SIZE;i++){
@@ -75,10 +85,12 @@ int main()
   return 0;
 }
 
-void kernel(int *A1, int *B1, int *resultAB1,long k,long j,long i)
+void kernel(int *A1, int *B1, int *resultAB1,long j,long i)
 {
+#pragma clang loop unroll_count(20)
+				for(int k = 0; k<SIZE;k=k+1){
 																//	3						//7
-				resultAB1[i*SIZE+j] += A1[i*SIZE+k]*B1[k*SIZE+j]+A1[i*SIZE+k+1]*B1[(k+1)*SIZE+j];
+				resultAB1[i*SIZE+j] += A1[i*SIZE+k]*B1[k*SIZE+j];
 				//A1[2]*B1[40] + A1[3]*B[60] = 401 * 400 + 402 * 
+				}
 }
-
