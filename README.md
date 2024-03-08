@@ -35,7 +35,7 @@
 2. add CGRA\_WORKBENCH to ~/.bashrc  
 	1. vim ~/.bashrc then add at the last line,for example "export CGRA\_WORKBENCH=/home/user/workbench"
 	2. source ~/.bashrc
-3. cd $CGRA\_WORKBENCH,run "make" to run the default kernel "mm2"
+3. cd $CGRA\_WORKBENCH,run "make KERNEL=conv3" to run the default kernel "conv3"
 
 ## Add Your kernels
 1. mkdir for your kernel, you can name the folder according to your preferences. **the name of the folder is the kernel's NAME** 
