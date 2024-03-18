@@ -1,7 +1,7 @@
 COLOR_RED := $(shell echo "\033[1;31m")
 COLOR_END := $(shell echo "\033[0m")
 
-KERNEL ?= mm2
+KERNEL ?= conv3
 SUFFIX ?= 0
 MAKE= make
 KERNELDIR=$(CGRA_WORKBENCH)/kernels/$(KERNEL)
@@ -9,6 +9,7 @@ BUILDDIR=$(KERNELDIR)/build
 OUTDIR=$(CGRA_WORKBENCH)/outputs/$(KERNEL)_$(SUFFIX)
 BC = $(KERNELDIR)/build/kernel.bc
 SO = $(MAPPER_HOME)/build/mapperPass-so
+BITSTREAM = $(OUTDIR)/bitstream.bin
 PARAMJSON = $(KERNELDIR)/param.json
 MAPCONSTRAINTJSON = $(KERNELDIR)/mapconstraint.json
 RUNSH = $(CGRA_WORKBENCH)/scripts/run.sh
@@ -20,14 +21,22 @@ $(warning $(COLOR_RED)Warning: $(SO) does not exists!$(COLOR_END))
 $(warning $(COLOR_RED)Build it in HIT-CGRA-Mapper first!$(COLOR_END))
 endif
 
-run : $(BC)
+compile : $(BC)
+	make -C $(MAPPER_HOME)
 	@bash $(RUNSH) $(OUTDIR) $(KERNELDIR) $(PARAMJSON) $(MAPCONSTRAINTJSON) $(SO) $(BC)
 	@bash $(DOTSH) $(OUTDIR) $(KERNEL)_$(SUFFIX)
-gdb : $(BC)
+gdbmapper : $(BC)
+	make -C $(MAPPER_HOME)
 	@bash $(GDBSH) $(OUTDIR) $(KERNELDIR) $(PARAMJSON) $(MAPCONSTRAINTJSON) $(SO) $(BC)
 	@bash $(DOTSH) $(OUTDIR) $(KERNEL)_$(SUFFIX)
+sim :
+	ln -sf $(KERNELDIR)/kernel.h $(CGRA_EMU_HOME)/include/kernel.h
+	make -C $(CGRA_EMU_HOME) run BITSTREAM=$(BITSTREAM) PARAM=$(PARAMJSON)
+	
 $(BC):
 	@$(MAKE) -s  -C $(KERNELDIR)
 
+cleanemu:
+	@$(MAKE) -s -C $(CGRA_EMU_HOME) clean
 clean:
 	@$(MAKE) -s -C $(KERNELDIR) clean

@@ -1,4 +1,21 @@
 {
   "kernel"                : "kernel",
-	"loopargnum"						:	1
+	"loopargnum"						:	1,
+	"rows":4,
+	 "cols": 4,
+	 "instmemsize":8,
+	 "constmemsize":8,
+	 "shiftconstmemsize":8,
+	 "datamemsize":400,
+	 "mrrgsize":200,
+	 "loop0start":1,
+	 "loop0inc":1,
+	 "loop0end":19,
+	 "loop1start":0,
+	 "loop1inc":1,
+	 "loop1end":1,
+	 "loop2start":0,
+	 "loop2inc":1,
+	 "loop2end":1,
+	 "maxsimcycle":1000
 }
