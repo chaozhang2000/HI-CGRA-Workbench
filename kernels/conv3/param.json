@@ -3,7 +3,7 @@
 	"loopargnum"						:	1,
 	"rows":4,
 	 "cols": 4,
-	 "instmemsize":8,
+	 "instmemsize":10,
 	 "constmemsize":8,
 	 "shiftconstmemsize":8,
 	 "datamemsize":400,
@@ -17,5 +17,14 @@
 	 "loop2start":0,
 	 "loop2inc":1,
 	 "loop2end":1,
-	 "maxsimcycle":1000
+	 "maxsimcycle":1000,
+	 "optlatency":{"load" : 0,"store":0},
+	 "optpipeline":["load" ,"store"],
+	 "datamemnum":4,
+	 "datamemaccess":{
+	 	"0" : [0],
+		"1" : [1],
+		"2" : [2],
+		"3" : [3]
+	 }
 }
