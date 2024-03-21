@@ -2,7 +2,7 @@
   "kernel"                : "kernel",
 	"loopargnum"						:	1,
 	"rows":4,
-	 "cols": 4,
+	 "cols":5,
 	 "instmemsize":10,
 	 "constmemsize":8,
 	 "shiftconstmemsize":8,
@@ -18,7 +18,7 @@
 	 "loop2inc":1,
 	 "loop2end":1,
 	 "maxsimcycle":1000,
-	 "optlatency":{"load" : 0,"store":0},
+	 "optlatency":{"load" : 1,"store":1},
 	 "optpipeline":["load" ,"store"],
 	 "datamemnum":4,
 	 "datamemaccess":{

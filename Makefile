@@ -32,7 +32,9 @@ gdbmapper : $(BC)
 sim :
 	ln -sf $(KERNELDIR)/kernel.h $(CGRA_EMU_HOME)/include/kernel.h
 	make -C $(CGRA_EMU_HOME) run BITSTREAM=$(BITSTREAM) PARAM=$(PARAMJSON)
-	
+gdbsim :
+	ln -sf $(KERNELDIR)/kernel.h $(CGRA_EMU_HOME)/include/kernel.h
+	make -C $(CGRA_EMU_HOME) gdb BITSTREAM=$(BITSTREAM) PARAM=$(PARAMJSON)
 $(BC):
 	@$(MAKE) -s  -C $(KERNELDIR)
 
