@@ -2,11 +2,11 @@
   "kernel"                : "kernel",
 	"loopargnum"						:	1,
 	"rows":4,
-	 "cols":5,
+	 "cols":4,
 	 "instmemsize":10,
 	 "constmemsize":8,
 	 "shiftconstmemsize":8,
-	 "datamemsize":400,
+	 "datamemsize":512,
 	 "mrrgsize":200,
 	 "loop0start":1,
 	 "loop0inc":1,
@@ -22,9 +22,9 @@
 	 "optpipeline":["load" ,"store"],
 	 "datamemnum":4,
 	 "datamemaccess":{
-	 	"0" : [0,1,2,3],
-		"1" : [4,5,6,7],
-		"2" : [8,9,10,11],
-		"3" : [12,13,14,15]
+	 	"0" : [0],
+		"1" : [1],
+		"2" : [2],
+		"3" : [3]
 	 }
 }
