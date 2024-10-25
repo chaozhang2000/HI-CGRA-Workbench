@@ -33,6 +33,7 @@ void checkresult(CGRA*cgra){
 	for(i = 1; i<19;i++){
 			if(conv3result[i] != cgra->datamems[3]->readData(i)){
 				std::cout<<"sim result is different from the theoretical results"<<std::endl;
+				std::cout<<"conv3result["<<i<<"]"<<" equal "<<cgra->datamems[3]->readData(i) << "shoule be "<<conv3result[i]<<std::endl;
 				std::cout<<"Sim not PASS!"<<std::endl;
 				return;
 			}

@@ -60,14 +60,12 @@ int main()
 	int *resultAB1 = (int *)resultABs;
   for (i=0;i<SIZE;i++){
         for(j=0;j<SIZE;j++){
-                for(k=0;k<SIZE;k=k+1){
-  								kernel(A1, B1, resultAB1,i,j);
-                }
+  								kernel(A1, B1, resultAB1,j,i);//前面的参数是内层对应loop0开始,后面的是外层
         }
   }
   for (i=0;i<SIZE;i++){
         for(j=0;j<SIZE;j++){
-                for(k=0;k<SIZE;k=k+1){
+								for(k = 0; k<SIZE;k++){
                   resulttrue[i][j]  += A1s[i][k] * B1s[k][j];
 								}
 				}
@@ -76,9 +74,11 @@ int main()
 	int error = 0;
 	for (int i=0;i<SIZE;i++){
 		for (int j=0;j<SIZE;j++){
+			printf("%d\t",resulttrue[i][j]);
 			if(resulttrue[i][j] != resultABs[i][j])
 											error = 1;
 		}
+		printf("\n");
 	}
 
 	if(error == 1) printf("error happened\n");

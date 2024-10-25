@@ -22,7 +22,7 @@ $(warning $(COLOR_RED)Build it in HIT-CGRA-Mapper first!$(COLOR_END))
 endif
 
 compile : $(BC)
-	make -C $(MAPPER_HOME)
+	make -C $(MAPPER_HOME) -j 16
 	@bash $(RUNSH) $(OUTDIR) $(KERNELDIR) $(PARAMJSON) $(MAPCONSTRAINTJSON) $(SO) $(BC)
 	@bash $(DOTSH) $(OUTDIR) $(KERNEL)_$(SUFFIX)
 gdbmapper : $(BC)
@@ -30,15 +30,26 @@ gdbmapper : $(BC)
 	@bash $(GDBSH) $(OUTDIR) $(KERNELDIR) $(PARAMJSON) $(MAPCONSTRAINTJSON) $(SO) $(BC)
 	@bash $(DOTSH) $(OUTDIR) $(KERNEL)_$(SUFFIX)
 sim :
+	@$(MAKE) -s -C $(CGRA_EMU_HOME) clean
 	ln -sf $(KERNELDIR)/kernel.h $(CGRA_EMU_HOME)/include/kernel.h
-	make -C $(CGRA_EMU_HOME) run BITSTREAM=$(BITSTREAM) PARAM=$(PARAMJSON)
+	make -C $(CGRA_EMU_HOME) run BITSTREAM=$(BITSTREAM) PARAM=$(PARAMJSON) -j 16
 gdbsim :
+	@$(MAKE) -s -C $(CGRA_EMU_HOME) clean
 	ln -sf $(KERNELDIR)/kernel.h $(CGRA_EMU_HOME)/include/kernel.h
 	make -C $(CGRA_EMU_HOME) gdb BITSTREAM=$(BITSTREAM) PARAM=$(PARAMJSON)
 $(BC):
 	@$(MAKE) -s  -C $(KERNELDIR)
 
+cleanmapper:
+	@$(MAKE) -s -C $(MAPPER_HOME) clean
 cleanemu:
 	@$(MAKE) -s -C $(CGRA_EMU_HOME) clean
-clean:
+cleanIR:
 	@$(MAKE) -s -C $(KERNELDIR) clean
+cleanallIR:
+	@$(MAKE) -s -C $(CGRA_WORKBENCH)/kernels cleanall
+cleanall:
+	@$(MAKE) -s -C $(CGRA_EMU_HOME) clean
+	@$(MAKE) -s -C $(CGRA_WORKBENCH)/kernels cleanall
+	@$(MAKE) -s -C $(MAPPER_HOME) clean
+
