@@ -1,0 +1,30 @@
+{
+  "kernel"                : "kernel",
+	"loopargnum"						:	1,
+	"rows":4,
+	 "cols":4,
+	 "instmemsize":10,
+	 "constmemsize":8,
+	 "shiftconstmemsize":8,
+	 "datamemsize":512,
+	 "mrrgsize":200,
+	 "loop0start":2,
+	 "loop0inc":1,
+	 "loop0end":198,
+	 "loop1start":0,
+	 "loop1inc":1,
+	 "loop1end":1,
+	 "loop2start":0,
+	 "loop2inc":1,
+	 "loop2end":1,
+	 "maxsimcycle":3000,
+	 "optlatency":{"load" : 1,"store":1},
+	 "optpipeline":["load" ,"store"],
+	 "datamemnum":4,
+	 "datamemaccess":{
+	 	"0" : [0,1,2,3],
+		"1" : [4,5,6,7],
+		"2" : [8,9,10,11],
+		"3" : [12,13,14,15]
+	 }
+}
