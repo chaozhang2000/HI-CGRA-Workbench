@@ -29,11 +29,11 @@ gdbmapper : $(BC)
 	make -C $(MAPPER_HOME)
 	@bash $(GDBSH) $(OUTDIR) $(KERNELDIR) $(PARAMJSON) $(MAPCONSTRAINTJSON) $(SO) $(BC)
 	@bash $(DOTSH) $(OUTDIR) $(KERNEL)_$(SUFFIX)
-sim :
+emu :
 	@$(MAKE) -s -C $(CGRA_EMU_HOME) clean
 	ln -sf $(KERNELDIR)/kernel.h $(CGRA_EMU_HOME)/include/kernel.h
 	make -C $(CGRA_EMU_HOME) run BITSTREAM=$(BITSTREAM) PARAM=$(PARAMJSON) -j 16
-gdbsim :
+gdbemu :
 	@$(MAKE) -s -C $(CGRA_EMU_HOME) clean
 	ln -sf $(KERNELDIR)/kernel.h $(CGRA_EMU_HOME)/include/kernel.h
 	make -C $(CGRA_EMU_HOME) gdb BITSTREAM=$(BITSTREAM) PARAM=$(PARAMJSON)
