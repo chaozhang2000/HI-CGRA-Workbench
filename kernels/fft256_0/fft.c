@@ -1,7 +1,7 @@
 #define TIMES 10
-void kernel(int *in,int *w,int *out,int* m,int j, int k){
+void kernel(int *in,int *w,int *out,int j, int k){
 	int p = k+j;
-	int q = k + j + ((*m)>>1);
+	int q = k + j + (2>>1);
 	int w_rindex = j*2;
 	int w_iindex = j*2+1;
 	int p_rindex = p*2;

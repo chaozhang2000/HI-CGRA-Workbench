@@ -52,6 +52,14 @@ int main()
         x_reverse[k] = x[reverse_num(log2(256),k)];       //反位序号操作
         printf("(%d, %di) \n",x_reverse[k].real,x_reverse[k].image);
     }
+
+		printf("butterfly_i[LEN*2] = {");
+    for(int k=0;k<256;k++)
+    {
+        if (k!=255)printf("%d,%d,",x_reverse[k].real,x_reverse[k].image);
+        if (k==255)printf("%d,%d};\n ",x_reverse[k].real,x_reverse[k].image);
+    }
+		
     printf("旋转因子\n");
 
 		for(int i = 0; i<128; i++){
@@ -59,6 +67,12 @@ int main()
        printf("(%d, %di)\n",w[i].real,w[i].image);
 
 		}
+		printf("w[LEN] = {");
+    for(int k=0;k<128;k++)
+    {
+        if (k!=127)printf("%d,%d,",w[k].real,w[k].image);
+        if (k==127)printf("%d,%d};\n ",w[k].real,w[k].image);
+    }
  
     fft(256,x,y);
  
@@ -71,7 +85,7 @@ int main()
 
 
  
-				for(int i = 0; i<log2(256);i++){
+				for(int i = 0; i<1;i++){
 								int m = 1 << (i+1);
         for(int k=0;k<256;k+=m)
         {
@@ -88,7 +102,7 @@ int main()
     }
 
 		for(int i =0;i<256;i++){
-			if((x_reverse[i].real != y[i].real)||(x_reverse[i].image != y[i].image)){
+			if((y1[i].real != y[i].real)||(y1[i].image != y[i].image)){
         printf("y %d(%d, %di) != y1 %d(%d, %di)\n",i,y[i].real,y[i].image,i,x_reverse[i].real,x_reverse[i].image);
 			}
 		}
@@ -174,7 +188,7 @@ void fft(int len, struct complex in_x[],struct complex out_y[])
         in_x_mem[k] = in_x[reverse_num(l,k)];       //反位序号操作
     }
  
-    for(r = 0;r<l;r++)      //遍历每一级蝶形运算
+    for(r = 0;r<1;r++)      //遍历每一级蝶形运算
     {
  
         int m  = 1<<(r+1);        //提前计算每一级的间隔距离
