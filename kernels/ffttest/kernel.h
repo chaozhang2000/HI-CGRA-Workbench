@@ -4,45 +4,44 @@
 #define TIMES 10
 #define LEN 8
 																								 
-int butterfly_i[LEN*2] = {1024,0,1024,0,1024,0,1024,0,-1024,0,-1024,0,-1024,0,-1024,0};
-int butterfly_o[LEN*2] = {0};
-int w[LEN] = {1024,0,724,-724,0,-1023,-724,-724};
+int inr[8] = {1024,1024,1024,1024,-1024,-1024,-1024,-1024};
+int ini[8] = {0};
+int wr[4] = {1024,724,0,-724};
+int wi[4] = {0,-724,-1023,-724};
+int outr[8] = {0};
+int outi[8] = {0};
 int m[1] = {2};
 
 
 void loaddataforkernel(CGRA* cgra){
-	cgra->datamems[0]->writeDatas(butterfly_i,0,LEN*2);
-	cgra->datamems[2]->writeDatas(w,0,LEN/2);
-	cgra->datamems[3]->writeDatas(m,0,1);
+	cgra->datamems[0]->writeDatas(inr,0,8);
+	cgra->datamems[1]->writeDatas(ini,0,8);
+	cgra->datamems[4]->writeDatas(wr,0,4);
+	cgra->datamems[5]->writeDatas(wi,0,4);
 }
 void printresult(CGRA*cgra){
 	std::cout<<"Print result:"<<std::endl;
-	for(int i = 0; i<LEN*2;i++){
-		std::cout<<"address = "<<i<<" data = "<<cgra->datamems[1]->readData(i)<<std::endl;
+	for(int i = 0; i<8;i++){
+		std::cout<<"datamem2:address = "<<i<<" data = "<<cgra->datamems[2]->readData(i)<<std::endl;
+		std::cout<<"datamem3:address = "<<i<<" data = "<<cgra->datamems[3]->readData(i)<<std::endl;
 	} 
 }
 
 
-void fftkernel(int *in,int *w,int *out,int* m,int j, int k){
+void fftkernel(int *inr,int *ini,int *outr,int*outi,int *Wr,int *Wi,int j, int k){
 	int p = k+j;
-	int q = k + j + ((*m)>>1);
-	int w_rindex = j*2;
-	int w_iindex = j*2+1;
-	int p_rindex = p*2;
-	int p_iindex = p*2+1;
-	int q_rindex = q*2;
-	int q_iindex = q*2+1;
+	int q = k + j + (2>>1);
 	
-	int inpr = in[p_rindex];
-	int inpi = in[p_iindex];
-	int inqr = in[q_rindex];
-	int inqi = in[q_iindex];
-	int wr = w[w_rindex];
-	int wi = w[w_iindex];
-    out[p_rindex] = inpr + ((inqr *wr - inqi * wi)>>TIMES);
-		out[p_iindex] = inpi + ((inqr* wi + wr*inqi)>>TIMES);
-    out[q_rindex] = inpr + ((- inqr *wr + inqi * wi)>>TIMES);
-		out[q_iindex] = inpi+(( - inqr* wi - wr*inqi)>>TIMES);
+	int inpr = inr[p];
+	int inpi = ini[p];
+	int inqr = inr[q];
+	int inqi = ini[q];
+	int wr = Wr[j];
+	int wi = Wi[j];
+    outr[p] = inpr + ((inqr *wr - inqi * wi)>>TIMES);
+		outi[p] = inpi + ((inqr* wi + wr*inqi)>>TIMES);
+    outr[q] = inpr + ((- inqr *wr + inqi * wi)>>TIMES);
+		outi[q] = inpi+(( - inqr* wi - wr*inqi)>>TIMES);
 }
 
 void checkresult(CGRA*cgra){
@@ -50,17 +49,29 @@ void checkresult(CGRA*cgra){
         {
         	for( int j=0;j<m[0]/2;j++)
             {
-							fftkernel(butterfly_i,w,butterfly_o,m,j,k);
+							fftkernel(inr,ini,outr,outi,wr,wi,j,k);
             }
         }
-	for(int i = 0; i<LEN*2;i++){
-			if(butterfly_o[i] != cgra->datamems[1]->readData(i)){
+	for(int i = 0; i<LEN;i++){
+			if(outr[i] != cgra->datamems[2]->readData(i)){
 				std::cout<<"sim result is different from the theoretical results"<<std::endl;
-				std::cout<<"butterfly_o["<<i<<"]"<<" equal "<<cgra->datamems[1]->readData(i) << "shoule be "<<butterfly_o[i]<<std::endl;
+				std::cout<<"outr["<<i<<"]"<<" equal "<<cgra->datamems[2]->readData(i) << "shoule be "<<outr[i]<<std::endl;
 				std::cout<<"Sim not PASS!"<<std::endl;
 				std::cout<<"correct result should be:"<<std::endl;
-				for(int j = 0; j<LEN*2;j++){
-					std::cout<<"address = "<<j<<" data = "<<butterfly_o[j]<<std::endl;
+				for(int j = 0; j<LEN;j++){
+					std::cout<<"address = "<<j<<" data = "<<outr[j]<<std::endl;
+				}
+				return;
+			}
+	} 
+	for(int i = 0; i<LEN;i++){
+			if(outi[i] != cgra->datamems[3]->readData(i)){
+				std::cout<<"sim result is different from the theoretical results"<<std::endl;
+				std::cout<<"outi["<<i<<"]"<<" equal "<<cgra->datamems[3]->readData(i) << "shoule be "<<outr[i]<<std::endl;
+				std::cout<<"Sim not PASS!"<<std::endl;
+				std::cout<<"correct result should be:"<<std::endl;
+				for(int j = 0; j<LEN;j++){
+					std::cout<<"address = "<<j<<" data = "<<outi[j]<<std::endl;
 				}
 				return;
 			}
