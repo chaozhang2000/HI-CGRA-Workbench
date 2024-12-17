@@ -18,7 +18,7 @@
 	 "loop2inc":1,
 	 "loop2end":1,
 	 "maxsimcycle":1000,
-	 "optlatency":{"load" : 1,"store":1},
+	 "optlatency":{"load" : 0,"store":0},
 	 "optpipeline":["load" ,"store"],
 	 "datamemnum":4,
 	 "datamemaccess":{
